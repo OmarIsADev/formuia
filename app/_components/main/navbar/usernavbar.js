@@ -18,6 +18,7 @@ import {
 } from "@nextui-org/react";
 
 import { app } from "@/app/_utils/firebase";
+import { calculateDays } from "../../../_functions/streak";
 
 const auth = getAuth(app);
 
@@ -65,7 +66,17 @@ const UserDropdownMenu = () => {
                         <div className="w-full flex flex-row items-center justify-center gap-4">
                             {days.map((day, index) => (
                                 <div key={day} className="flex flex-col items-center gap-2">
-                                    <Streak className={`w-fit h-7 ${index <= new Date().getDay() ? index === new Date(userData?.streak?.at(index - new Date().getDay() - 1)?.time).getDay() ? "stroke-violet-600" : "stroke-zinc-700" : "stroke-zinc-300"}`} />
+                                    <Streak
+                                        className={`w-fit h-7 ${
+                                            userData?.streak?.slice(-7).some((streak) => 
+                                                calculateDays(streak.time) <= new Date().getDay() - index &&
+                                                calculateDays(streak.time) === new Date().getDay() - index )
+                                                ? "stroke-violet-600"
+                                                : index <= new Date().getDay()
+                                                ? "stroke-zinc-700"
+                                                : "stroke-zinc-300"
+                                        }`}
+                                    />
                                     <p>{day.slice(0, 3)}</p>
                                 </div>
                             ))}
