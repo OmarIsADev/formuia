@@ -1,19 +1,18 @@
 import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import { app } from "@/app/_utils/firebase";
+import { increaseXpFunc } from "../_functions/xp";
 
 const db = getFirestore(app);
 
 const userRef = collection(db, "users");
 const useLevel = (userData) => {
   const updateUserLevel = async (increaseXp) => {
-
     if (!userData?.uid) {
       console.error("failed to get Data");
       return;
     }
 
     const docRef = doc(userRef, userData.uid);
-
 
     if (userData.xp && userData.requiredXp && userData.level) {
       updateStats(increaseXp, docRef);
@@ -32,25 +31,16 @@ const useLevel = (userData) => {
 
   const updateStats = async (increaseXp, docRef) => {
     const { level, xp, requiredXp } = userData;
-    let newLevel = level? level : 0
-    let newXp = (xp? xp : 0 )+ increaseXp;
-    let newRequiredXp = requiredXp? requiredXp : 5
-    if (newXp >= newRequiredXp) {
-      newLevel += 1;
-      newXp = newXp - newRequiredXp;
-      newRequiredXp = 10 + (newLevel * newLevel - 1) * 5;
-    } else if (newXp < 0) {
-       newLevel -= 1;
-       newRequiredXp = 10 + (newLevel * newLevel - 1) * 5;
-       newXp = newRequiredXp + increaseXp;
-    }
-
+    let data = {
+      xp: xp ? xp : 0,
+      requiredXp: requiredXp ? requiredXp : 5,
+      level: level ? level : 0,
+    };
 
     await setDoc(docRef, {
       ...userData,
-      level: newLevel,
-      xp: newXp,
-      requiredXp: newRequiredXp,
+
+      ...increaseXpFunc(data, increaseXp),
     });
   };
 

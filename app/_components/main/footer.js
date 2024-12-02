@@ -1,7 +1,7 @@
 import Badges from "@/app/_components/main/badges";
 const Footer = () => {
   return (
-    <div className="bottom-0 mt-auto flex w-full gap-4 rounded-t-md bg-zinc-950 p-4 max-w-6xl">
+    <div className="relative bottom-0 flex w-full gap-4 rounded-t-md bg-zinc-950 p-4 max-w-6xl">
       <div className="flex flex-row justify-between w-full">
         <div className="flex gap-4">
         <Badges
@@ -17,8 +17,8 @@ const Footer = () => {
             img="https://1000logos.net/wp-content/uploads/2017/02/insta-logo.png"
         />
         </div>
-        <p className="opacity-75">
-           Made by Gamerlord 
+        <p className="text-neutral-500">
+           Made by Omar 
         </p>
       </div>
     </div>

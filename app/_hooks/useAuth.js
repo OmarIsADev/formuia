@@ -55,18 +55,16 @@ const useAuth = (protect) => {
         }
 
         const getStreak = () => {
+            const diff = Math.floor((Date.now() - streak.time) / (1000 * 60 * 60 * 24));
+            console.log(diff)
             if (!streak) return;
-            else if (streak.time <= Date.now() - 1000 * 60 * 60 * 24) {
+            else if (!diff) {
+                return;
+            }
+            else if (diff === 1) {
                 updateStreak(streak.streak + 1)
             }
-            else if ((new Date(streak.time).getDay() < new Date().getDay() || (new Date(streak.time).getDay() === 6 && new Date().getDay() === 0)) && streak.time >= Date.now() - 1000 * 60 * 60 * 24 * 2) {
-                
-                updateStreak(streak.streak + 1)
-            }
-            else if (streak.time >= Date.now() - 1000 * 60 * 60 * 24) {
-                return
-            }
-            else {
+            else if (diff > 1) {
                 updateStreak(1)
                 return
             }

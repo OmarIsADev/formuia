@@ -177,6 +177,8 @@ const PostComp = ({ data, userData }) => {
         });
       };
 
+      console.log(data)
+
       fetchData();
     }
   }, [data]);
@@ -227,6 +229,7 @@ const PostComp = ({ data, userData }) => {
         <div className="flex flex-row items-center gap-2">
           <UserAvatar user={user} userData={userData} />
           <h1>{user.username}</h1>
+          <p className="text-sm font-light text-neutral-500">{new Date(data.CreatedAt.seconds * 1000).toLocaleString()}</p>
         </div>
         {userData && data.uid === userData.uid && <Menu id={data.id} />}
       </div>

@@ -11,6 +11,7 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import Input from "@/app/_components/input";
+import { app } from "../../_utils/firebase";
 
 const auth = getAuth();
 
